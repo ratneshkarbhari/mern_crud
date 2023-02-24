@@ -41,4 +41,30 @@ app.post("/notes", async(req,res)=>{
 
 })
 
+app.put("/notes/:id",async(req,res)=>{
+    let noteId = req.params.id;
+
+    let title = req.body.title
+    let body = req.body.body
+
+    const notes = await Note.findByIdAndUpdate(noteId,{
+        title : title,
+        body : body
+    })
+    res.json({notes: notes})
+
+})
+
+app.delete("/notes/:id",async(req,res)=>{
+
+    let noteId = req.params.id;
+    const deleted = await Note.findByIdAndDelete(noteId)
+    if (deleted) {
+        const notes = await Note.find()
+        res.json({"message": "Note Deleted"})
+    } else {
+        res.json({"message": "Note Not deleted"})    
+    }
+})
+
 app.listen(process.env.PORT)
