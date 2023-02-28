@@ -4,9 +4,11 @@ const express = require("express")
 const connect_to_db = require('./config/connect_to_db')
 const app = express()
 const notesController = require("./controllers/notesController");
+const cors = require("cors")
 
 // configure express to read json
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
 connect_to_db()
 

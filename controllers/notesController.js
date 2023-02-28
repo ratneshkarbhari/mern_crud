@@ -10,35 +10,35 @@ const fetchNotes = async(req,res)=>{
 const fetchNote = async(req,res)=>{
     let noteId = req.params.id;
     const notes = await Note.findById(noteId)
-    res.json({notes: notes})
+    res.json({notes})
 }
 
 const createNote = async(req,res)=>{
     // get the data sent in request body
-    let title = req.body.title
-    let body = req.body.body
+    const {title,body} = req.body
     // create a note with it
     let note = await Note.create({
-        title : title,
-        body : body
+        title, 
+        body
     })
     // repond with new note
 
-    res.json({note:note})
+    res.json({note})
 
 }
 
 const updateNote = async(req,res)=>{
     let noteId = req.params.id;
+    const {title,body} = req.body
 
-    let title = req.body.title
-    let body = req.body.body
 
-    const notes = await Note.findByIdAndUpdate(noteId,{
-        title : title,
-        body : body
+    await Note.findByIdAndUpdate(noteId,{
+        title,
+        body 
     })
-    res.json({notes: notes})
+    const note = await Note.findById(noteId);
+
+    res.json({note})
 
 }
 
@@ -60,4 +60,4 @@ module.exports = {
     createNote: createNote,
     updateNote: updateNote,
     deleteNote: deleteNote
-}
+}   
